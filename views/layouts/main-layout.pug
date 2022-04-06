@@ -1,24 +1,24 @@
 doctype html
 html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(http-equiv="X-UA-Compatible", content="IE=edge")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title #{pageTitle}
-        link(rel="stylesheet", href="../../public/css/main.css")
-        block styles
-    body 
-        .main-header
-            .main-header__nav
-                .main-header__item-list
-                    li.main-header__item
-                        a(href="/", class=(path === '/' ? 'active' :'')) Shop
-                    li.main-header__item
-                        a(href="/products", class=(path === '/products' ? 'active' :'')) Products
-                    li.main-header__item
-                        a(href="/cart", class=(path === '/cart' ? 'active' :'')) Cart
-                    li.main-header__item
-                        a(href="/admin/add-product", class=(path === '/admin/add-product' ? 'active' : '')) Add Product
-                    li.main-header__item
-                        a(href="/admin/products", class=(path === '/admin/products' ? 'active' : '')) Admin Product
-        block content
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title #{pageTitle}
+    link(rel="stylesheet" href="../../public/css/main.css")
+    block styles
+  body 
+    .main-header
+      .main-header__nav
+        .main-header__item-list
+          li.main-header__item
+            a(href="/", class=(path === '/' ? 'active' :'')) Shop
+          li.main-header__item
+            a(href="/products", class=(path === '/products' ? 'active' :'')) Products
+          li.main-header__item
+            a(href="/cart", class=(path === '/cart' ? 'active' :'')) Cart
+          li.main-header__item
+            a(href="/admin/add-product", class=(path === '/admin/add-product' ? 'active' : '')) Add Product
+          li.main-header__item
+            a(href="/admin/products", class=(path === '/admin/products' ? 'active' : '')) Admin Product
+    block content
