@@ -29,3 +29,7 @@ exports.getProducts = (req, res, next) => {
     });
   });
 };
+
+exports.getEditProduct = (req, res, next) => {
+  res.render('admin/edit-product')
+}
