@@ -8,15 +8,16 @@ block content
         each product in prods
           article.card.product-item
             header.card__header
-              h1.product__title #{product.name}
+              h1.product__title #{product.title}
             div.card__image
               img(src=product.imageUrl, alt="A Book")
             div.card__content
               h2.product__price #{product.price}$
               p.product__description #{product.description}
             .card__actions
-              a.btn(href='/admin/edit-product') Edit
+              a.btn(href='/admin/edit-product/' + product.id + '?edit=true') Edit
               form(action='/admin/delete-product', method='POST')
+                input(type="hidden", value=product.id, name='productId')
                 button.btn(type='submit') Delete
     else
       h1 No Products

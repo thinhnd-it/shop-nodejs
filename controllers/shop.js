@@ -1,36 +1,48 @@
+const Cart = require('../models/cart');
 const Product = require('../models/product');
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll(products => {
-    res.render('shop/product-list', {
-      prods: products,
-      pageTitle: 'All Products',
-      path: '/products'
-    });
-  });
+  Product.findAll()
+    .then(products => {
+      res.render('shop/product-list', {
+        prods: products,
+        pageTitle: 'All Products',
+        path: '/products'
+      });
+    })
+    .catch(err => console.log(err))
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll(products => {
-    res.render('shop/index', {
-      prods: products,
-      pageTitle: 'Shop',
-      path: '/'
-    });
-  });
+  Product.findAll()
+    .then(products => {
+      res.render('shop/index', {
+        prods: products,
+        pageTitle: 'All Products',
+        path: '/'
+      });
+    })
+    .catch(err => console.log(err))
 };
 
 exports.getCart = (req, res, next) => {
-  res.render('shop/cart', {
-    path: '/cart',
-    pageTitle: 'Your Cart'
-  });
+  
 };
 
 exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
-  console.log(prodId)
+  Product.findById(prodId, (product) => {
+    Cart.addProduct(product.id, product.price)
+  })
   res.redirect('/cart')
+}
+
+exports.postDeleteCartItem = (req, res, next) => {
+  const prodId = req.body.productId
+  Product.findById(prodId, product => {
+    Cart.deleteProduct(prodId, product.price)
+    res.redirect('/cart')
+  })
 }
 
 exports.getOrders = (req, res, next) => {
@@ -49,11 +61,25 @@ exports.getCheckout = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   let prodId = req.params.productId
-  Product.findById(prodId, product => {
-    res.render('shop/product-detail', {
-      product: product,
-      path: 'products',
-      pageTitle: product.title
+  Product.findAll({
+    where: {
+      id: prodId
+    }
+  }).then(prod => {
+      res.render('shop/product-detail', {
+        product: prod[0],
+        path: 'products',
+        pageTitle: prod[0].title
+      })
     })
-  })
+    .catch(err => console.log(err))
+  // Product.findByPk(prodId)
+  //   .then((prod) => {
+  //     res.render('shop/product-detail', {
+  //       product: prod,
+  //       path: 'products',
+  //       pageTitle: prod.title
+  //     })
+  //   })
+  //   .catch(err => console.log(err))
 } 
