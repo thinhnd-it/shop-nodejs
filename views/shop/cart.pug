@@ -7,10 +7,13 @@ block content
       ul 
         each product in products 
           li 
-            p #{product.productData.title} (#{product.qty})
+            p #{product.title} (#{product.cartItem.quantity})
             form(action="/cart-delete-item" method='POST')
-              input(type="hidden", value=product.productData.id, name='productId') 
+              input(type="hidden", value=product.id, name='productId') 
               button.btn Delete
+      .centered 
+        form(action='/create-order' method='POST')
+          button.btn(type='submid') Order now
     else 
       h1 There is no product in cart
 
