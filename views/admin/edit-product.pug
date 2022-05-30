@@ -17,5 +17,5 @@ block content
     .form-control
       label(for='description') Description
       textarea#description(name='description', rows='5') #{product.description}
-    input(type="hidden", value=product.id, name='productId')
+    input(type="hidden", value=product._id, name='productId')
     button.btn(type='submit') Save Product
