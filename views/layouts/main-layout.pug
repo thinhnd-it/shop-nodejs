@@ -21,10 +21,17 @@ html(lang="en")
             a.path(class=(path === '/cart' ? 'active' : '') href='/cart') Cart
           li.main-header__item
             a.path(class=(path === '/orders' ? 'active' : '') href='/orders') Orders
+          if isAuthenticated
+            li.main-header__item
+              a.path(class=(path === '/admin/add-product' ? 'active' : '') href='/admin/add-product') Add Product
+            li.main-header__item
+              a.path(class=(path === '/admin/products' ? 'active' : '') href='/admin/products') Admin Products
+        ul.main-header__item-list 
           li.main-header__item
-            a.path(class=(path === '/admin/add-product' ? 'active' : '') href='/admin/add-product') Add Product
+            a.path(href='/login') Login
           li.main-header__item
-            a.path(class=(path === '/admin/products' ? 'active' : '') href='/admin/products') Admin Products
+            form(action="/logout" method='POST')
+              button(type='submit') Logout 
     nav.mobile-nav
       ul.mobile-nav__item-list
         li.mobile-nav__item
