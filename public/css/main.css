@@ -241,3 +241,16 @@ form {
     display: none;
   }
 }
+
+@keyframes cssAnimation {
+  0%   {opacity: 1;}
+  90%  {opacity: 1;}
+  100% {opacity: 0; display: none;}
+}
+
+.flash {
+  background-color: rgb(237, 208, 208);
+  padding: 10px;
+  color: red;
+  animation: cssAnimation 0s ease-in 5s forwards;
+}

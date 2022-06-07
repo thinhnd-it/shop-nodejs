@@ -17,33 +17,38 @@ html(lang="en")
             a.path(class=(path === '/' ? 'active' : '') href='/') Shop
           li.main-header__item
             a.path(class=(path === '/products' ? 'active' : '') href='/products') Products
-          li.main-header__item
-            a.path(class=(path === '/cart' ? 'active' : '') href='/cart') Cart
-          li.main-header__item
-            a.path(class=(path === '/orders' ? 'active' : '') href='/orders') Orders
           if isAuthenticated
+            li.main-header__item
+              a.path(class=(path === '/cart' ? 'active' : '') href='/cart') Cart
+            li.main-header__item
+              a.path(class=(path === '/orders' ? 'active' : '') href='/orders') Orders
             li.main-header__item
               a.path(class=(path === '/admin/add-product' ? 'active' : '') href='/admin/add-product') Add Product
             li.main-header__item
               a.path(class=(path === '/admin/products' ? 'active' : '') href='/admin/products') Admin Products
         ul.main-header__item-list 
-          li.main-header__item
-            a.path(href='/login') Login
-          li.main-header__item
-            form(action="/logout" method='POST')
-              button(type='submit') Logout 
-    nav.mobile-nav
-      ul.mobile-nav__item-list
-        li.mobile-nav__item
-          a.path(class=(path === '/' ? 'active' : '') href='/') Shop
-        li.mobile-nav__item
-          a.path(class=(path === '/products' ? 'active' : '') href='/products') Products
-        li.mobile-nav__item
-          a.path(class=(path === '/cart' ? 'active' : '') href='/cart') Cart
-        li.mobile-nav__item
-          a.path(class=(path === '/orders' ? 'active' : '') href='/orders') Orders
-        li.mobile-nav__item
-          a.path(class=(path === '/admin/add-product' ? 'active' : '') href='/admin/add-product') Add Product
-        li.mobile-nav__item
-          a.path(class=(path === '/admin/products' ? 'active' : '') href='/admin/products') Admin Products
+          if !isAuthenticated
+            li.main-header__item
+              a.path(href='/login') Login
+            li.main-header__item
+              a.path(href='/sign-up') Sign Up
+          else
+            li.main-header__item
+              form(action="/logout" method='POST')
+                input(type="hidden" name="_csrf" value=csrfToken)
+                button(type='submit') Logout 
+    //- nav.mobile-nav
+    //-   ul.mobile-nav__item-list
+    //-     li.mobile-nav__item
+    //-       a.path(class=(path === '/' ? 'active' : '') href='/') Shop
+    //-     li.mobile-nav__item
+    //-       a.path(class=(path === '/products' ? 'active' : '') href='/products') Products
+    //-     li.mobile-nav__item
+    //-       a.path(class=(path === '/cart' ? 'active' : '') href='/cart') Cart
+    //-     li.mobile-nav__item
+    //-       a.path(class=(path === '/orders' ? 'active' : '') href='/orders') Orders
+    //-     li.mobile-nav__item
+    //-       a.path(class=(path === '/admin/add-product' ? 'active' : '') href='/admin/add-product') Add Product
+    //-     li.mobile-nav__item
+    //-       a.path(class=(path === '/admin/products' ? 'active' : '') href='/admin/products') Admin Products
     block content

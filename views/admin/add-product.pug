@@ -5,6 +5,7 @@ block styles
 block content 
   main
   form.product-form(action='/admin/add-product' method='POST')
+    input(type="hidden" name="_csrf" value=csrfToken)
     .form-control
       label(for='title') Title
       input#title(type='text', name='title')

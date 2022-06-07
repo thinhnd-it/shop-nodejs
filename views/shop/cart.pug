@@ -9,10 +9,12 @@ block content
           li 
             p #{product.title} (#{product.quantity})
             form(action="/cart-delete-item" method='POST')
+              input(type="hidden" name="_csrf" value=csrfToken)
               input(type="hidden", value=product._id, name='productId') 
               button.btn Delete
       .centered 
         form(action='/create-order' method='POST')
+          input(type="hidden" name="_csrf" value=csrfToken)
           button.btn(type='submid') Order now
     else 
       h1 There is no product in cart

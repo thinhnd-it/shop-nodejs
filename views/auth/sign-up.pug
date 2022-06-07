@@ -4,9 +4,7 @@ block styles
   link(rel="stylesheet", href="/css/auth.css")
 block content 
   main
-  form.login-form(action='/login' method='POST')
-    if errorMessage 
-      div.flash #{errorMessage}
+  form.login-form(action='/sign-up' method='POST')
     input(type="hidden" name="_csrf" value=csrfToken)
     .form-control
       label(for='email') Email
@@ -14,4 +12,7 @@ block content
     .form-control
       label(for='password') Password
       input#imageUrl(type='password', name='password')
-    button.btn(type='submit') Login
+    .form-control
+      label(for='confirm-password') Password Confirm
+      input#imageUrl(type='password', name='confirm-password')
+    button.btn(type='submit') Sign Up
