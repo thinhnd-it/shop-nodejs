@@ -5,18 +5,20 @@ block styles
 block content 
   main
   form.product-form(action='/admin/edit-product' method='POST')
+    if errorMessage 
+      div.flash #{errorMessage}
     input(type="hidden" name="_csrf" value=csrfToken)
     .form-control
       label(for='title') Title
-      input#title(type='text', name='title', value=product.title)
+      input#title(type='text', name='title', value=oldData ? oldData.title : product.title )
     .form-control
       label(for='imageUrl') Image URL
-      input#imageUrl(type='text', name='imageUrl', value=product.imageUrl)
+      input#imageUrl(type='text', name='imageUrl', value=oldData ? oldData.imageUrl : product.imageUrl)
     .form-control
       label(for='price') Price
-      input#price(type='number', name='price', step='0.01', value=product.price)
+      input#price(type='number', name='price', step='0.01', value=oldData ? oldData.price :product.price)
     .form-control
       label(for='description') Description
-      textarea#description(name='description', rows='5') #{product.description}
+      textarea#description(name='description', rows='5') #{oldData ? oldData.description : product.description}
     input(type="hidden", value=product._id, name='productId')
     button.btn(type='submit') Save Product

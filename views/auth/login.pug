@@ -4,16 +4,16 @@ block styles
   link(rel="stylesheet", href="/css/auth.css")
 block content 
   main
-  form.login-form(action='/login' method='POST')
+  form.login-form(action='/login' method='POST' novalidate)
     if errorMessage 
       div.flash #{errorMessage}
     input(type="hidden" name="_csrf" value=csrfToken)
     .form-control
       label(for='email') Email
-      input#title(type='email', name='email')
+      input#title(type='email', name='email' value=oldData ? oldData.email : '')
     .form-control
       label(for='password') Password
-      input#imageUrl(type='password', name='password')
+      input#imageUrl(type='password', name='password' value=oldData ? oldData.password : '')
     button.btn(type='submit') Login
   .centered 
     a(href='/reset-password') Forgot password?

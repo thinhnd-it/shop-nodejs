@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto')
+const { validationResult } = require('express-validator')
 
 const transport = nodemailer.createTransport({
 	host: 'smtp.mailtrap.io',
@@ -28,6 +29,18 @@ exports.getLogin = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
 	let email = req.body.email;
 	let password = req.body.password;
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+		return res.status(422).render('auth/login', {
+			pageTitle: 'Sign In',
+			path: '/login',
+			errorMessage: errors.array().map(i => i.msg),
+			oldData: {
+				email: email,
+				password: password
+			}
+		})
+	}
 
 	User.findOne({ email: email })
 		.then((user) => {
@@ -54,7 +67,6 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.getSignUp = (req, res, next) => {
-	console.log(req.session);
 	res.render('auth/sign-up', {
 		pageTitle: 'Sign Up',
 		path: '/sign-up',
@@ -64,35 +76,42 @@ exports.getSignUp = (req, res, next) => {
 exports.postSignUp = (req, res, next) => {
 	let email = req.body.email;
 	let password = req.body.password;
-	User.findOne({ email: email })
-		.then((user) => {
-			if (user) {
-				req.flash('error', 'User have existed')
-				return res.redirect('/login');
+	let passwordConfirmation = req.body.confirmPassword
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+		return res.status(422).render('auth/sign-up', {
+			pageTitle: 'Sign Up',
+			path: '/sign-up',
+			errorMessage: errors.array().map(i => i.msg),
+			oldData: {
+				email: email,
+				password: password,
+				confirmPassword: passwordConfirmation
 			}
-			return bcrypt
-				.hash(password, 12)
-				.then((hashedPassword) => {
-					const newUser = new User({
-						email: email,
-						password: hashedPassword,
-						cart: {
-							items: [],
-						},
-					});
-					return newUser.save();
-				})
-				.then(() => {
-					const mailOptions = {
-						from: '"Example Team" <from@example.com>',
-						to: email,
-						subject: 'Nice Nodemailer test',
-						text: 'Hey there, it’s our first message sent with Nodemailer ;) ',
-						html: '<b>Hey there! </b><br> This is our first message sent with Nodemailer',
-					};
-					res.redirect('/login');
-					return transport.sendMail(mailOptions);
-				});
+		})
+	}
+	bcrypt
+		.hash(password, 12)
+		.then((hashedPassword) => {
+			const newUser = new User({
+				email: email,
+				password: hashedPassword,
+				cart: {
+					items: [],
+				},
+			});
+			return newUser.save();
+		})
+		.then(() => {
+			const mailOptions = {
+				from: '"Example Team" <from@example.com>',
+				to: email,
+				subject: 'Nice Nodemailer test',
+				text: 'Hey there, it’s our first message sent with Nodemailer ;) ',
+				html: '<b>Hey there! </b><br> This is our first message sent with Nodemailer',
+			};
+			res.redirect('/login');
+			return transport.sendMail(mailOptions);
 		})
 		.catch((err) => {
 			console.log(err);

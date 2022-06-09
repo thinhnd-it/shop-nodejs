@@ -5,17 +5,19 @@ block styles
 block content 
   main
   form.product-form(action='/admin/add-product' method='POST')
+    if errorMessage 
+      div.flash #{errorMessage}
     input(type="hidden" name="_csrf" value=csrfToken)
     .form-control
       label(for='title') Title
-      input#title(type='text', name='title')
+      input#title(type='text', name='title' value=oldData ? oldData.title : '')
     .form-control
       label(for='imageUrl') Image URL
-      input#imageUrl(type='text', name='imageUrl')
+      input#imageUrl(type='text', name='imageUrl' value=oldData ? oldData.imageUrl : '')
     .form-control
       label(for='price') Price
-      input#price(type='number', name='price', step='0.01')
+      input#price(type='number', name='price', step='0.01' value=oldData ? oldData.price : '')
     .form-control
       label(for='description') Description
-      textarea#description(name='description', rows='5')
+      textarea#description(name='description', rows='5') #{oldData ? oldData.description : ''}
     button.btn(type='submit') Add Product

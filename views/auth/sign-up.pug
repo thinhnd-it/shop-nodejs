@@ -4,15 +4,17 @@ block styles
   link(rel="stylesheet", href="/css/auth.css")
 block content 
   main
-  form.login-form(action='/sign-up' method='POST')
+  form.login-form(action='/sign-up' method='POST' novalidate)
+    if errorMessage 
+        div.flash #{errorMessage}
     input(type="hidden" name="_csrf" value=csrfToken)
     .form-control
       label(for='email') Email
-      input#title(type='email', name='email')
+      input#title(type='email', name='email' value=oldData ? oldData.email : '')
     .form-control
       label(for='password') Password
-      input#imageUrl(type='password', name='password')
+      input#imageUrl(type='password', name='password' value=oldData ? oldData.password : '')
     .form-control
-      label(for='confirm-password') Password Confirm
-      input#imageUrl(type='password', name='confirm-password')
+      label(for='confirmPassword') Password Confirm
+      input#imageUrl(type='password', name='confirmPassword' value=oldData ? oldData.confirmPassword : '')
     button.btn(type='submit') Sign Up
