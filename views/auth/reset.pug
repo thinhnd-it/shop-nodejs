@@ -4,16 +4,11 @@ block styles
   link(rel="stylesheet", href="/css/auth.css")
 block content 
   main
-  form.login-form(action='/login' method='POST')
+  form.login-form(action='/reset-password' method='POST')
     if errorMessage 
       div.flash #{errorMessage}
     input(type="hidden" name="_csrf" value=csrfToken)
     .form-control
       label(for='email') Email
       input#title(type='email', name='email')
-    .form-control
-      label(for='password') Password
-      input#imageUrl(type='password', name='password')
-    button.btn(type='submit') Login
-  .centered 
-    a(href='/reset-password') Forgot password?
+    button.btn(type='submit') Reset Password
