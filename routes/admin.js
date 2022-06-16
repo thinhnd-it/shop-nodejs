@@ -16,7 +16,6 @@ router.post(
   '/add-product', 
   [
     check('title').isString().isLength({min: 3}).trim(),
-    check('imageUrl').isURL(),
     check('price').isNumeric(),
     check('description').isString().isLength({min: 3, max: 400})
   ],
@@ -31,7 +30,6 @@ router.post(
   '/edit-product', 
   [
     check('title').isString().isLength({min: 3}).trim(),
-    check('imageUrl').isURL(),
     check('price').isNumeric(),
     check('description').isString().isLength({min: 3, max: 400})
   ],

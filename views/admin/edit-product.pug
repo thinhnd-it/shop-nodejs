@@ -4,7 +4,7 @@ block styles
   link(rel="stylesheet", href="/css/product.css")
 block content 
   main
-  form.product-form(action='/admin/edit-product' method='POST')
+  form.product-form(action='/admin/edit-product' method='POST' enctype="multipart/form-data")
     if errorMessage 
       div.flash #{errorMessage}
     input(type="hidden" name="_csrf" value=csrfToken)
@@ -12,8 +12,8 @@ block content
       label(for='title') Title
       input#title(type='text', name='title', value=oldData ? oldData.title : product.title )
     .form-control
-      label(for='imageUrl') Image URL
-      input#imageUrl(type='text', name='imageUrl', value=oldData ? oldData.imageUrl : product.imageUrl)
+      label(for='image') Image 
+      input#imageUrl(type='file', name='image')
     .form-control
       label(for='price') Price
       input#price(type='number', name='price', step='0.01', value=oldData ? oldData.price :product.price)

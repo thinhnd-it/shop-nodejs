@@ -5,7 +5,9 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
-const flash = require('connect-flash')
+const flash = require('connect-flash');
+const cors = require('cors');
+const multer = require('multer');
 
 const app = express();
 const MONGO_URI =
@@ -27,6 +29,24 @@ const User = require('./models/user');
 const csrfProtection = csrf();
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(
+	multer({
+		dest: 'temp/',
+		fileFilter: function (req, file, callback) {
+			var ext = path.extname(file.originalname);
+			if (
+				ext !== '.png' &&
+				ext !== '.jpg' &&
+				ext !== '.gif' &&
+				ext !== '.jpeg'
+			) {
+				return callback(new Error('Only images are allowed'));
+			}
+			callback(null, true);
+		},
+		limits: { fieldSize: 8 * 1024 * 1024 },
+	}).single('image')
+);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
 	session({
@@ -38,7 +58,8 @@ app.use(
 	})
 );
 app.use(csrfProtection);
-app.use(flash())
+app.use(flash());
+app.use(cors());
 
 app.use((req, res, next) => {
 	if (!req.session.user) {
@@ -67,18 +88,6 @@ app.use(errorController.get404);
 mongoose
 	.connect(MONGO_URI)
 	.then(() => {
-		User.findOne().then((user) => {
-			if (!user) {
-				const user = new User({
-					name: 'Thinh',
-					email: 'thinhnd194@gmail.com',
-					cart: {
-						items: [],
-					},
-				});
-				user.save();
-			}
-		});
-		app.listen(3000);
+		app.listen(3001);
 	})
 	.catch((err) => console.log(err));
