@@ -187,9 +187,18 @@ exports.postEditProduct = (req, res, next) => {
 	}
 };
 
-exports.postDeleteProduct = (req, res, next) => {
-	const prodId = req.body.productId;
+exports.deleteProduct = (req, res, next) => {
+	const prodId = req.params.id;
+	console.log(prodId)
 	Product.deleteOne({ _id: prodId, userId: req.user._id })
-		.then((result) => res.redirect('/admin/products'))
-		.catch((err) => console.log(err));
+		.then(() => {
+			return res.status(200).json({
+				message: 'Successfully'
+			})
+		})
+		.catch(err => {
+			return res.status(500).json({
+				message: err
+			})
+		});
 };
